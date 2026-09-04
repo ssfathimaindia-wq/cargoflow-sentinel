@@ -1,0 +1,69 @@
+{
+  "recorded_outcomes": [
+    {
+      "shipment_id": "SHP-1001",
+      "agent_predicted_severity": "OK",
+      "actual_outcome": "delivered_on_time",
+      "actual_sla_breach": false,
+      "actual_cold_chain_breach": false,
+      "recorded_days_after_prediction": 2
+    },
+    {
+      "shipment_id": "SHP-1002",
+      "agent_predicted_severity": "WARNING",
+      "actual_outcome": "delivered_minor_delay",
+      "actual_sla_breach": false,
+      "actual_cold_chain_breach": false,
+      "recorded_days_after_prediction": 1
+    },
+    {
+      "shipment_id": "SHP-1003",
+      "agent_predicted_severity": "CRITICAL",
+      "actual_outcome": "delivered_major_delay_temp_excursion",
+      "actual_sla_breach": true,
+      "actual_cold_chain_breach": true,
+      "recorded_days_after_prediction": 3
+    },
+    {
+      "shipment_id": "SHP-1004",
+      "agent_predicted_severity": "OK",
+      "actual_outcome": "delivered_on_time",
+      "actual_sla_breach": false,
+      "actual_cold_chain_breach": false,
+      "recorded_days_after_prediction": 1
+    },
+    {
+      "shipment_id": "SHP-1005",
+      "agent_predicted_severity": "CRITICAL",
+      "actual_outcome": "delivered_major_delay_customs",
+      "actual_sla_breach": true,
+      "actual_cold_chain_breach": false,
+      "recorded_days_after_prediction": 4
+    },
+    {
+      "shipment_id": "SHP-1006",
+      "agent_predicted_severity": "OK",
+      "actual_outcome": "delivered_late_unexpected",
+      "actual_sla_breach": true,
+      "actual_cold_chain_breach": false,
+      "recorded_days_after_prediction": 2,
+      "_note": "Deliberately included as a FALSE NEGATIVE example for the demo: agent said OK, but an SLA breach happened anyway."
+    },
+    {
+      "shipment_id": "SHP-1007",
+      "agent_predicted_severity": "WARNING",
+      "actual_outcome": "delivered_on_time_after_intervention",
+      "actual_sla_breach": false,
+      "actual_cold_chain_breach": false,
+      "recorded_days_after_prediction": 2
+    },
+    {
+      "shipment_id": "SHP-1008",
+      "agent_predicted_severity": "OK",
+      "actual_outcome": "delivered_on_time",
+      "actual_sla_breach": false,
+      "actual_cold_chain_breach": false,
+      "recorded_days_after_prediction": 1
+    }
+  ]
+}

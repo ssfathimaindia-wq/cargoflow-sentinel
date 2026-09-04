@@ -1,0 +1,124 @@
+{
+  "shipments": [
+    {
+      "id": "SHP-1001",
+      "route": "Rotterdam-Hamburg",
+      "carrier": "NorthLine Logistics",
+      "expected_eta": "2026-09-17T14:00:00Z",
+      "current_status": "in_transit",
+      "milestones": [
+        {"stage": "departed_origin", "expected_hrs_offset": 0, "actual_hrs_offset": 0},
+        {"stage": "customs_clearance", "expected_hrs_offset": 12, "actual_hrs_offset": 12.5},
+        {"stage": "arrived_destination", "expected_hrs_offset": 24, "actual_hrs_offset": null}
+      ],
+      "temp_log_c": [4.1, 4.2, 4.0, 4.3],
+      "temp_threshold_c": 6.0,
+      "linked_po": "PO-88201"
+    },
+    {
+      "id": "SHP-1002",
+      "route": "Antwerp-Lyon",
+      "carrier": "Meridian Freight",
+      "expected_eta": "2026-09-17T09:00:00Z",
+      "current_status": "in_transit",
+      "milestones": [
+        {"stage": "departed_origin", "expected_hrs_offset": 0, "actual_hrs_offset": 0.5},
+        {"stage": "customs_clearance", "expected_hrs_offset": 8, "actual_hrs_offset": 14.5},
+        {"stage": "arrived_destination", "expected_hrs_offset": 18, "actual_hrs_offset": null}
+      ],
+      "temp_log_c": [5.1, 5.4, 5.9, 6.1],
+      "temp_threshold_c": 6.0,
+      "linked_po": "PO-88202"
+    },
+    {
+      "id": "SHP-1003",
+      "route": "Gdansk-Berlin",
+      "carrier": "BalticRoute GmbH",
+      "expected_eta": "2026-09-17T06:00:00Z",
+      "current_status": "delayed",
+      "milestones": [
+        {"stage": "departed_origin", "expected_hrs_offset": 0, "actual_hrs_offset": 3.2},
+        {"stage": "customs_clearance", "expected_hrs_offset": 10, "actual_hrs_offset": 22.8},
+        {"stage": "arrived_destination", "expected_hrs_offset": 20, "actual_hrs_offset": null}
+      ],
+      "temp_log_c": [4.0, 6.8, 8.9, 9.4],
+      "temp_threshold_c": 6.0,
+      "linked_po": "PO-88203"
+    },
+    {
+      "id": "SHP-1004",
+      "route": "Valencia-Madrid",
+      "carrier": "Iberia Cargo Solutions",
+      "expected_eta": "2026-09-17T11:00:00Z",
+      "current_status": "in_transit",
+      "milestones": [
+        {"stage": "departed_origin", "expected_hrs_offset": 0, "actual_hrs_offset": 0},
+        {"stage": "customs_clearance", "expected_hrs_offset": 4, "actual_hrs_offset": 4.1},
+        {"stage": "arrived_destination", "expected_hrs_offset": 9, "actual_hrs_offset": null}
+      ],
+      "temp_log_c": [3.9, 4.0, 4.1, 4.0],
+      "temp_threshold_c": 6.0,
+      "linked_po": "PO-88204"
+    },
+    {
+      "id": "SHP-1005",
+      "route": "Rotterdam-Warsaw",
+      "carrier": "NorthLine Logistics",
+      "expected_eta": "2026-09-17T18:00:00Z",
+      "current_status": "customs_hold",
+      "milestones": [
+        {"stage": "departed_origin", "expected_hrs_offset": 0, "actual_hrs_offset": 0.2},
+        {"stage": "customs_clearance", "expected_hrs_offset": 16, "actual_hrs_offset": 41.0},
+        {"stage": "arrived_destination", "expected_hrs_offset": 30, "actual_hrs_offset": null}
+      ],
+      "temp_log_c": [4.2, 4.4, 4.3, 4.5],
+      "temp_threshold_c": 6.0,
+      "linked_po": "PO-88205"
+    },
+    {
+      "id": "SHP-1006",
+      "route": "Hamburg-Munich",
+      "carrier": "Meridian Freight",
+      "expected_eta": "2026-09-17T20:00:00Z",
+      "current_status": "in_transit",
+      "milestones": [
+        {"stage": "departed_origin", "expected_hrs_offset": 0, "actual_hrs_offset": 0},
+        {"stage": "customs_clearance", "expected_hrs_offset": 6, "actual_hrs_offset": 6.2},
+        {"stage": "arrived_destination", "expected_hrs_offset": 14, "actual_hrs_offset": null}
+      ],
+      "temp_log_c": [4.5, 4.6, 4.4, 4.5],
+      "temp_threshold_c": 6.0,
+      "linked_po": "PO-88206"
+    },
+    {
+      "id": "SHP-1007",
+      "route": "Milan-Vienna",
+      "carrier": "AlpineTrans SRL",
+      "expected_eta": "2026-09-17T15:00:00Z",
+      "current_status": "in_transit",
+      "milestones": [
+        {"stage": "departed_origin", "expected_hrs_offset": 0, "actual_hrs_offset": 1.1},
+        {"stage": "customs_clearance", "expected_hrs_offset": 7, "actual_hrs_offset": 11.4},
+        {"stage": "arrived_destination", "expected_hrs_offset": 13, "actual_hrs_offset": null}
+      ],
+      "temp_log_c": [5.8, 6.5, 7.2, 7.6],
+      "temp_threshold_c": 6.0,
+      "linked_po": "PO-88207"
+    },
+    {
+      "id": "SHP-1008",
+      "route": "Barcelona-Marseille",
+      "carrier": "Iberia Cargo Solutions",
+      "expected_eta": "2026-09-17T10:00:00Z",
+      "current_status": "in_transit",
+      "milestones": [
+        {"stage": "departed_origin", "expected_hrs_offset": 0, "actual_hrs_offset": 0},
+        {"stage": "customs_clearance", "expected_hrs_offset": 5, "actual_hrs_offset": 5.0},
+        {"stage": "arrived_destination", "expected_hrs_offset": 10, "actual_hrs_offset": null}
+      ],
+      "temp_log_c": [4.0, 4.1, 4.0, 4.1],
+      "temp_threshold_c": 6.0,
+      "linked_po": "PO-88208"
+    }
+  ]
+}

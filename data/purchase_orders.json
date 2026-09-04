@@ -1,0 +1,12 @@
+{
+  "purchase_orders": [
+    {"po": "PO-88201", "customer": "Vantage Retail Group", "order_value_eur": 18500, "production_dependency": false, "priority": "standard"},
+    {"po": "PO-88202", "customer": "Meridian Foods NV", "order_value_eur": 26400, "production_dependency": true, "priority": "high"},
+    {"po": "PO-88203", "customer": "NordCold Distribution", "order_value_eur": 41200, "production_dependency": true, "priority": "critical"},
+    {"po": "PO-88204", "customer": "Iberia Fresh SA", "order_value_eur": 9800, "production_dependency": false, "priority": "standard"},
+    {"po": "PO-88205", "customer": "Warsaw Manufacturing Ltd", "order_value_eur": 58900, "production_dependency": true, "priority": "critical"},
+    {"po": "PO-88206", "customer": "Bavaria Components GmbH", "order_value_eur": 15200, "production_dependency": false, "priority": "standard"},
+    {"po": "PO-88207", "customer": "AlpTec Assembly", "order_value_eur": 22300, "production_dependency": true, "priority": "high"},
+    {"po": "PO-88208", "customer": "Provence Grocers", "order_value_eur": 7600, "production_dependency": false, "priority": "standard"}
+  ]
+}

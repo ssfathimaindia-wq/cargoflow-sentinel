@@ -1,0 +1,32 @@
+{
+  "test_cases": [
+    {
+      "shipment_id": "SHP-1003",
+      "input_finding": "CRITICAL delay at customs_clearance stage, deviation 12.8 hrs; CRITICAL cold-chain, max_temp 9.4C vs threshold 6.0C",
+      "expected_diagnosis_contains": ["customs", "cold-chain", "refrigeration"],
+      "expected_action_specific": true,
+      "notes": "Should identify BOTH the customs delay AND the temperature excursion as separate issues, not just one."
+    },
+    {
+      "shipment_id": "SHP-1005",
+      "input_finding": "CRITICAL delay at customs_clearance stage, deviation 25.0 hrs",
+      "expected_diagnosis_contains": ["customs", "documentation", "hold"],
+      "expected_action_specific": true,
+      "notes": "Should recommend contacting customs broker or carrier, not a generic 'investigate' response."
+    },
+    {
+      "shipment_id": "SHP-1002",
+      "input_finding": "WARNING delay at customs_clearance stage, deviation 6.5 hrs",
+      "expected_diagnosis_contains": ["customs", "minor", "monitor"],
+      "expected_action_specific": true,
+      "notes": "Should NOT escalate to CRITICAL-level urgency language for a WARNING-severity case."
+    },
+    {
+      "shipment_id": "SHP-1005-erp",
+      "input_finding": "ERP reconciliation for SHP-1005, PO-88205, Warsaw Manufacturing Ltd, EUR 58900, production_dependency=true",
+      "expected_diagnosis_contains": ["production", "urgent", "escalat"],
+      "expected_action_specific": true,
+      "notes": "Must explicitly flag production line risk given production_dependency=true."
+    }
+  ]
+}
