@@ -1,5 +1,6 @@
 .env
 CLAUDE.md
+docs/Video_Storyboard.md
 __pycache__/
 *.pyc
 .venv/
