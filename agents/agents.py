@@ -7,6 +7,7 @@ Structure follows microsoft/FrontierWeekHack factory/challenge-1-build/agents.py
 Requires: azure-ai-projects, azure-identity, python-dotenv
 """
 
+import json
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -14,7 +15,17 @@ from azure.ai.projects import AIProjectClient
 from azure.ai.projects.models import FunctionTool, PromptAgentDefinition
 from azure.identity import DefaultAzureCredential
 
-from tools import CHECK_SHIPMENT_HEALTH_SCHEMA, CHECK_PO_IMPACT_SCHEMA
+from tools import (
+    CHECK_SHIPMENT_HEALTH_SCHEMA,
+    CHECK_PO_IMPACT_SCHEMA,
+    check_shipment_health,
+    check_po_impact,
+)
+
+TOOL_FUNCTIONS = {
+    "check_shipment_health": check_shipment_health,
+    "check_po_impact": check_po_impact,
+}
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(REPO_ROOT / ".env")
@@ -69,7 +80,45 @@ def _get_client() -> AIProjectClient:
     return AIProjectClient(
         endpoint=PROJECT_CONNECTION_STRING,
         credential=DefaultAzureCredential(),
+        allow_preview=True,
     )
+
+
+def invoke_agent(client: AIProjectClient, agent_name: str, input_text: str) -> str:
+    """
+    Runs a turn against a deployed agent via the OpenAI Responses API, scoped
+    to that agent's endpoint. client.agents.invoke() does not exist in
+    azure-ai-projects 2.6.0 -- this is the SDK's actual invocation path.
+
+    The Foundry Agent Service does not execute FunctionTools server-side --
+    it returns a pending function_call item and waits for the caller to run
+    the local Python function and submit the result. This loop does that,
+    resubmitting tool outputs until the agent returns final text.
+    """
+    openai_client = client.get_openai_client(agent_name=agent_name)
+    response = openai_client.responses.create(model=MODEL_DEPLOYMENT_NAME, input=input_text)
+
+    while True:
+        calls = [item for item in response.output if item.type == "function_call"]
+        if not calls:
+            return response.output_text
+
+        tool_outputs = []
+        for call in calls:
+            func = TOOL_FUNCTIONS[call.name]
+            args = json.loads(call.arguments)
+            result = func(**args)
+            tool_outputs.append({
+                "type": "function_call_output",
+                "call_id": call.call_id,
+                "output": json.dumps(result),
+            })
+
+        response = openai_client.responses.create(
+            model=MODEL_DEPLOYMENT_NAME,
+            input=tool_outputs,
+            previous_response_id=response.id,
+        )
 
 
 def deploy_agents():

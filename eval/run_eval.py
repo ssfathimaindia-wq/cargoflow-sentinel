@@ -10,9 +10,12 @@ import json
 import sys
 from pathlib import Path
 
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    sys.stdout.reconfigure(encoding="utf-8")
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "agents"))
 
-from agents import _get_client, ROOTCAUSE_AGENT_NAME, ERP_AGENT_NAME  # noqa: E402
+from agents import _get_client, invoke_agent, ROOTCAUSE_AGENT_NAME, ERP_AGENT_NAME  # noqa: E402
 
 EVAL_DATA_PATH = Path(__file__).resolve().parent / "eval_dataset.json"
 RESULTS_PATH = Path(__file__).resolve().parent / "eval_results.json"
@@ -34,11 +37,6 @@ Score from 1-5 (5 = excellent, matches expectations closely and is actionable;
 """
 
 
-def run_agent(client, agent_name: str, input_text: str) -> str:
-    response = client.agents.invoke(agent_name=agent_name, input=input_text)
-    return response.output_text
-
-
 def judge(client, judge_model: str, input_finding: str, actual_output: str,
           expected_terms: list, expected_specific: bool) -> dict:
     prompt = JUDGE_PROMPT_TEMPLATE.format(
@@ -47,11 +45,11 @@ def judge(client, judge_model: str, input_finding: str, actual_output: str,
         expected_terms=", ".join(expected_terms),
         expected_specific=expected_specific,
     )
-    response = client.agents.invoke(agent_name=judge_model, input=prompt)
+    output_text = invoke_agent(client, judge_model, prompt)
     try:
-        return json.loads(response.output_text)
+        return json.loads(output_text)
     except json.JSONDecodeError:
-        return {"score": None, "reasoning": "Could not parse judge output", "raw": response.output_text}
+        return {"score": None, "reasoning": "Could not parse judge output", "raw": output_text}
 
 
 def run_evaluation():
@@ -65,7 +63,7 @@ def run_evaluation():
         is_erp_case = case["shipment_id"].endswith("-erp")
         agent_name = ERP_AGENT_NAME if is_erp_case else ROOTCAUSE_AGENT_NAME
 
-        actual_output = run_agent(client, agent_name, case["input_finding"])
+        actual_output = invoke_agent(client, agent_name, case["input_finding"])
         verdict = judge(
             client,
             judge_model=ROOTCAUSE_AGENT_NAME,  # reuse as judge, or point at a dedicated eval model

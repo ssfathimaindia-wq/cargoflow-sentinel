@@ -9,11 +9,15 @@ worth calling out explicitly when presenting.
 import sys
 from pathlib import Path
 
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    sys.stdout.reconfigure(encoding="utf-8")
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "agents"))
 
 from tools import scan_all_shipments, check_po_impact  # noqa: E402
 from agents import (  # noqa: E402
     _get_client,
+    invoke_agent,
     EXCEPTION_AGENT_NAME,
     ROOTCAUSE_AGENT_NAME,
     ERP_AGENT_NAME,
@@ -41,14 +45,11 @@ def run_root_cause_diagnosis(client, flagged_shipments: list) -> list:
     diagnoses = []
     for shipment in flagged_shipments:
         print(f"  Diagnosing {shipment['shipment_id']}...")
-        response = client.agents.invoke(
-            agent_name=ROOTCAUSE_AGENT_NAME,
-            input=str(shipment),
-        )
+        output_text = invoke_agent(client, ROOTCAUSE_AGENT_NAME, str(shipment))
         diagnoses.append({
             "shipment_id": shipment["shipment_id"],
             "severity": shipment["overall_severity"],
-            "diagnosis": response.output_text,
+            "diagnosis": output_text,
         })
     return diagnoses
 
@@ -66,13 +67,10 @@ def run_erp_reconciliation(client, critical_diagnoses: list) -> list:
     impacts = []
     for d in critical_diagnoses:
         print(f"  Reconciling {d['shipment_id']} against ERP...")
-        response = client.agents.invoke(
-            agent_name=ERP_AGENT_NAME,
-            input=d["shipment_id"],
-        )
+        output_text = invoke_agent(client, ERP_AGENT_NAME, d["shipment_id"])
         impacts.append({
             "shipment_id": d["shipment_id"],
-            "business_impact": response.output_text,
+            "business_impact": output_text,
         })
     return impacts
 
