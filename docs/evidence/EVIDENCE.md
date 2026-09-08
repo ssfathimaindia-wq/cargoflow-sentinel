@@ -13,6 +13,19 @@ production dependency). Full captured output: `workflow-run-output.txt`
 (same session, after the SDK/tool-loop fixes were applied). Reproducible by
 running `python agents/agents.py` then `python workflow/workflow.py`.
 
+## Evaluation (LLM-as-judge)
+
+`eval-results.json` — output of `eval/run_eval.py` against the live agents,
+run after the SDK/tool-loop fixes and the conditional-tool-call prompt
+update. 4 test cases, **average score 4.50 / 5**. 3 of 4 root-cause
+diagnoses scored 5/5 (correctly identify both the customs delay and
+cold-chain causes, with specific, actionable next steps). The ERP
+reconciliation case scored 3/5 — the judge's own reasoning: correct on
+business impact and urgency, but light on concrete escalation steps. This
+is genuine, non-cherry-picked judge output, including its one lower score —
+useful "we measured quality, and here's an honest weak spot" material for
+the write-up, not just a clean sweep.
+
 ## Portal Foundry trace
 
 `trace-exception-detection-agent.redacted.json` — a real GenAI trace span

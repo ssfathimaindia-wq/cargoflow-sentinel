@@ -1,0 +1,26 @@
+[
+  {
+    "shipment_id": "SHP-1003",
+    "actual_output": "### 1) Exception: **CRITICAL delay at customs_clearance stage** (deviation **+12.8 hrs**)\n**Most likely root cause:** Customs hold due to **documentation/clearance mismatch** (e.g., missing/incorrect paperwork or HS/classification discrepancy) causing the shipment to be retained past the normal release window.\n\n**Next action (one concrete step):**  \n**Contact the customs broker for your shipment and request an immediate status + hold reason confirmation (specifically ask \u201cIs SHP on a customs hold? If yes, which document/field is failing\u2014invoice/packing list/HS code or certificate?\u201d). Then resend/correct the flagged document(s) today.**\n\n---\n\n### 2) Exception: **CRITICAL cold-chain breach** (max_temp **9.4\u00b0C** vs threshold **6.0\u00b0C**)\n**Most likely root cause:** **Refrigeration unit performance failure or inadequate temperature control** during transit, leading to prolonged exposure (often from power interruption, setpoint not maintaining, or unit malfunction).\n\n**Next action (one concrete step):**  \n**Flag the shipment for immediate cold-chain inspection on arrival: instruct the receiving warehouse to (1) verify unit status/model logs if available, (2) check product temperature history, and (3) place the shipment into quarantine pending quality review\u2014do not release for handling until inspected.**",
+    "score": 5,
+    "reasoning": "Both diagnoses correctly map the customs delay to a likely documentation/customs hold issue and the cold-chain breach to refrigeration/temperature control failure, with next actions that are specific, immediate, and operationally actionable."
+  },
+  {
+    "shipment_id": "SHP-1005",
+    "actual_output": "**Shipment exception**\n- **Shipment ID:** (not provided)\n- **Finding:** CRITICAL delay at **customs_clearance** stage\n- **Deviation:** **25.0 hours**\n\n**Most likely root cause**\n- **Customs hold / documentation issue** (e.g., missing/incorrect invoice, HS code, valuation, or required permits causing clearance to stall).\n\n**One concrete next action**\n- **Immediately contact the customs brokerage handling the shipment and request the exact hold reason/code and the missing/incorrect document list for clearance; then expedite delivery of the required documents today** (e.g., call/email the brokerage with: \u201cRequest customs hold reason and documentation gap for the shipment stalled 25 hours in customs clearance\u201d).",
+    "score": 5,
+    "reasoning": "The agent correctly attributes a critical customs_clearance delay to a customs hold/documentation gap and provides a specific, immediately actionable next step to contact the brokerage for the exact hold reason and missing documents to expedite clearance."
+  },
+  {
+    "shipment_id": "SHP-1002",
+    "actual_output": "**Shipment ID:** (not provided)  \n**Finding:** Delay at **customs_clearance** stage, **deviation 6.5 hrs**  \n**Most likely root cause:** **Customs hold / documentation issue** (e.g., missing or mismatched invoice/HS code, clearance review pending).  \n**Next concrete action:** **Contact the carrier\u2019s customs broker/team and request the exact status reason for the customs hold for this shipment, then escalate for priority clearance and provide any missing documents (invoice/packing list/HS code) immediately.**",
+    "score": 5,
+    "reasoning": "The output correctly attributes the customs_clearance delay to a customs hold/documentation issue and provides a specific, actionable next step to contact the customs broker/team and escalate with missing documents."
+  },
+  {
+    "shipment_id": "SHP-1005-erp",
+    "actual_output": "Shipment **SHP-1005** is tied to **Warsaw Manufacturing Ltd** with an **order value at risk of EUR 58,900**. Because **production_dependency=true**, this issue may **block a factory production line**, requiring **urgent escalation** (priority: **high**).",
+    "score": 3,
+    "reasoning": "The diagnosis correctly highlights production impact and the need for urgent escalation, but it lacks specific, logistics-actionable next steps and doesn\u2019t mention concrete escalation targets or actions to address the ERP reconciliation for SHP-1005/PO-88205."
+  }
+]
