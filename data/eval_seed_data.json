@@ -1,0 +1,165 @@
+{
+  "cargoflow_sentinel_scenarios": [
+    {
+      "shipment_scan": {
+        "shipment_id": "SHP-1001",
+        "route": "Rotterdam-Hamburg",
+        "carrier": "NorthLine Logistics",
+        "overall_severity": "OK",
+        "findings": [],
+        "linked_po": "PO-88201"
+      }
+    },
+    {
+      "shipment_scan": {
+        "shipment_id": "SHP-1002",
+        "route": "Antwerp-Lyon",
+        "carrier": "Meridian Freight",
+        "overall_severity": "CRITICAL",
+        "findings": [
+          {
+            "type": "delay",
+            "stage": "customs_clearance",
+            "severity": "WARNING",
+            "deviation_hrs": 6.5
+          },
+          {
+            "type": "cold_chain",
+            "severity": "CRITICAL",
+            "max_temp_c": 6.1,
+            "threshold_c": 6.0,
+            "pct_over": 1.7
+          }
+        ],
+        "linked_po": "PO-88202"
+      },
+      "po_impact": {
+        "shipment_id": "SHP-1002",
+        "po": "PO-88202",
+        "customer": "Meridian Foods NV",
+        "order_value_eur": 26400,
+        "production_dependency": true,
+        "priority": "high"
+      }
+    },
+    {
+      "shipment_scan": {
+        "shipment_id": "SHP-1003",
+        "route": "Gdansk-Berlin",
+        "carrier": "BalticRoute GmbH",
+        "overall_severity": "CRITICAL",
+        "findings": [
+          {
+            "type": "delay",
+            "stage": "customs_clearance",
+            "severity": "CRITICAL",
+            "deviation_hrs": 12.8
+          },
+          {
+            "type": "cold_chain",
+            "severity": "CRITICAL",
+            "max_temp_c": 9.4,
+            "threshold_c": 6.0,
+            "pct_over": 56.7
+          }
+        ],
+        "linked_po": "PO-88203"
+      },
+      "po_impact": {
+        "shipment_id": "SHP-1003",
+        "po": "PO-88203",
+        "customer": "NordCold Distribution",
+        "order_value_eur": 41200,
+        "production_dependency": true,
+        "priority": "critical"
+      }
+    },
+    {
+      "shipment_scan": {
+        "shipment_id": "SHP-1004",
+        "route": "Valencia-Madrid",
+        "carrier": "Iberia Cargo Solutions",
+        "overall_severity": "OK",
+        "findings": [],
+        "linked_po": "PO-88204"
+      }
+    },
+    {
+      "shipment_scan": {
+        "shipment_id": "SHP-1005",
+        "route": "Rotterdam-Warsaw",
+        "carrier": "NorthLine Logistics",
+        "overall_severity": "CRITICAL",
+        "findings": [
+          {
+            "type": "delay",
+            "stage": "customs_clearance",
+            "severity": "CRITICAL",
+            "deviation_hrs": 25.0
+          }
+        ],
+        "linked_po": "PO-88205"
+      },
+      "po_impact": {
+        "shipment_id": "SHP-1005",
+        "po": "PO-88205",
+        "customer": "Warsaw Manufacturing Ltd",
+        "order_value_eur": 58900,
+        "production_dependency": true,
+        "priority": "critical"
+      }
+    },
+    {
+      "shipment_scan": {
+        "shipment_id": "SHP-1006",
+        "route": "Hamburg-Munich",
+        "carrier": "Meridian Freight",
+        "overall_severity": "OK",
+        "findings": [],
+        "linked_po": "PO-88206"
+      }
+    },
+    {
+      "shipment_scan": {
+        "shipment_id": "SHP-1007",
+        "route": "Milan-Vienna",
+        "carrier": "AlpineTrans SRL",
+        "overall_severity": "CRITICAL",
+        "findings": [
+          {
+            "type": "delay",
+            "stage": "customs_clearance",
+            "severity": "WARNING",
+            "deviation_hrs": 4.4
+          },
+          {
+            "type": "cold_chain",
+            "severity": "CRITICAL",
+            "max_temp_c": 7.6,
+            "threshold_c": 6.0,
+            "pct_over": 26.7
+          }
+        ],
+        "linked_po": "PO-88207"
+      },
+      "po_impact": {
+        "shipment_id": "SHP-1007",
+        "po": "PO-88207",
+        "customer": "AlpTec Assembly",
+        "order_value_eur": 22300,
+        "production_dependency": true,
+        "priority": "high"
+      }
+    },
+    {
+      "shipment_scan": {
+        "shipment_id": "SHP-1008",
+        "route": "Barcelona-Marseille",
+        "carrier": "Iberia Cargo Solutions",
+        "overall_severity": "OK",
+        "findings": [],
+        "linked_po": "PO-88208"
+      }
+    }
+  ]
+}

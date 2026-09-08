@@ -39,27 +39,38 @@ The unredacted original (`trace-exception-detection-agent.raw.json`) is
 gitignored — it contains real Azure subscription ID, resource group, and
 project resource IDs.
 
-## Portal Workflow (architecture visual, not a live demo)
+## Portal Workflow — now working end-to-end
 
 Workflow name: `cargoflow-sentinel-workflow`, in the same Foundry project.
 Graph: `Start -> exception-detection-agent -> root-cause-action-agent ->
 If/else (CRITICAL check) -> erp-reconciliation-agent -> End`, with the Else
-branch skipping straight to End. This visually demonstrates the same
-conditional-branch architecture as the Python workflow.
+branch skipping straight to End.
 
-Known limitation, not fixed: the portal's chat-triggered Preview cannot
-fully execute past the If/else condition, because the agent's saved output
-is a structured message Table (`gen_ai.output.messages[].parts[].content`),
-not plain text, and the exact record/table accessor path for this Foundry
-tenant's Power Fx dialect wasn't identified. The two tool-using agent nodes
-(`exception-detection-agent`, `erp-reconciliation-agent`) DO run correctly
-in Preview when given pre-fetched data directly in their Input message
-(see the trace above) — only the conditional branch evaluation is
-unresolved. This is a portal-specific gap; the real Python SDK path has no
-such limitation and is the system's actual, complete proof of execution.
+Previously the If/else condition couldn't evaluate `Local.exception_result`
+because the agent's saved output is a structured message Table, not plain
+text -- `Find()`/`in` against the raw variable failed with "Invalid argument
+type (Table). Expecting a Text value instead." Root cause and fix, found by
+iterating via direct SDK calls (`openai_client.responses.create(...,
+extra_body={"agent_reference": {...}})`, bypassing the slower chat UI) with
+`x-ms-debug-mode-enabled` for full error detail:
+
+- `First(Local.exception_result).Value` -> `'Value' isn't recognized`
+- `First(Local.exception_result).content` -> `'content' isn't recognized`
+- `First(Local.exception_result).Text` -> **works**
+
+Final working condition: `Find("CRITICAL", First(Local.exception_result).Text) > 0`.
+The `.Text` field name was inferred from a system variable
+(`LastMessage.Text`) seen earlier in the portal's own variable picker --
+this platform's convention, not the OTEL trace schema's `parts[].content`
+naming, which turned out to be a red herring for this specific field.
+
+Full run output confirming the complete chain executes, including real ERP
+business-impact text: `portal-workflow-full-run-output.txt`.
 
 ## Still to capture (do before recording the video)
 
 - [ ] Portal screenshot: Agents list (all 3 CargoFlow Sentinel agents)
 - [ ] Portal screenshot: `cargoflow-sentinel-workflow` graph view (full canvas)
+- [ ] Portal screenshot: a full Preview run completing successfully, incl.
+      the ERP reconciliation step
 - [ ] Terminal screenshot/recording: `python workflow/workflow.py` output
