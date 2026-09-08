@@ -1,0 +1,76 @@
+=== Step 0: Ensuring agents deployed ===
+Found existing: exception-detection-agent
+Found existing: root-cause-action-agent
+Found existing: erp-reconciliation-agent
+
+=== Step 1: Exception Scan ===
+  Checked 8 shipments
+  CRITICAL: 4  WARNING: 0  OK: 4
+
+=== Step 2: Root-Cause Diagnosis ===
+  Diagnosing SHP-1002...
+  Diagnosing SHP-1003...
+  Diagnosing SHP-1005...
+  Diagnosing SHP-1007...
+
+=== Step 3: ERP Reconciliation (CRITICAL only) ===
+  Reconciling SHP-1002 against ERP...
+  Reconciling SHP-1003 against ERP...
+  Reconciling SHP-1005 against ERP...
+  Reconciling SHP-1007 against ERP...
+
+=== Step 4: Cargo Health Report ===
+CARGOFLOW SENTINEL - CARGO HEALTH REPORT
+  Shipments checked  : 8
+  CRITICAL           : 4
+  WARNING            : 0
+  OK                 : 4
+
+DIAGNOSES:
+  [CRITICAL] SHP-1002: ### SHP-1002 — Root Cause & Next Action
+
+1) **Finding: Delay at `customs_clearance` (WARNING, +6.5 hrs)**
+- **Most likely root cause:** **Customs hold / documentation mismatch** (e.g., missing or inconsistent paperwork for the PO/import declaration).
+- **Next action (do now):** **Contact Meridian Freight’s customs brokerage for SHP-1002 and request the exact customs reference + hold reason; immediately resend/confirm documents tied to PO-88202 (commercial invoice, packing list, and any required certificates).**
+
+2) **Finding: Cold-chain temperature exceedance (CRITICAL, max 6.1°C vs 6.0°C; +1.7%)**
+- **Most likely root cause:** **Refrigeration control issue or temperature exposure during customs/dock dwell** (brief loss of cooling while waiting).
+- **Next action (do now):** **Flag SHP-1002 for an urgent cold-chain inspection on arrival in Lyon—verify refrigeration unit operation and perform temperature log download/audit before unloading continues.**
+  [CRITICAL] SHP-1003: ### SHP-1003 — CRITICAL (Gdansk → Berlin, BalticRoute GmbH)  
+
+#### 1) Finding: **Delay at customs_clearance** (12.8 hrs, CRITICAL)  
+**Most likely root cause:** **Customs hold due to documentation/entry mismatch** (e.g., missing/incorrect invoice, HS code, or consignee details) causing clearance to stall.  
+**Next action (do now):** **Contact BalticRoute GmbH customs desk today to open a customs investigation for SHP-1003 and verify the exact reason code for the customs hold; request/submit the missing documentation for PO-88203 if flagged.**
+
+#### 2) Finding: **Cold-chain / temperature excursion** (max 9.4°C vs 6.0°C, +56.7%, CRITICAL)  
+**Most likely root cause:** **Refrigeration unit underperformance OR prolonged dwell time during/around customs causing heat exposure.**  
+**Next action (do now):** **Flag SHP-1003 for immediate cold-chain inspection on arrival (check current temp + reefer unit status/logs) and hold the shipment for disposition decision pending product viability assessment for PO-88203.**
+  [CRITICAL] SHP-1005: **Shipment:** SHP-1005 (Rotterdam–Warsaw)  
+**Finding:** Delay at **customs_clearance** — **25 hrs** — **CRITICAL**
+
+### Most likely root cause
+**Customs hold and/or documentation issue** (e.g., missing/incorrect commercial invoice, HS code, or export/import declarations) causing the shipment to remain detained at customs.
+
+### Next action (specific)
+**Contact NorthLine Logistics’ customs brokerage/disptach team today to request the exact customs status and refusal/hold reason for SHP-1005 under PO-88205, and ask them to immediately submit/correct the missing documents (invoice/HS code and declarations) to release the hold.**
+  [CRITICAL] SHP-1007: ### Shipment: SHP-1007 (Milan → Vienna) | Carrier: AlpineTrans SRL
+
+#### 1) Finding: Delay at **customs_clearance** (WARNING, +4.4 hrs)  
+**Most likely root cause:** Customs hold or documentation/clearance mismatch causing release delay.  
+
+**Next action (concrete):**  
+**Contact AlpineTrans SRL customs/broker support and request an immediate clearance-status update for SHP-1007, specifically verifying document acceptance (invoice/packing list/HS code/COO if applicable) and the reason code for the customs hold.**
+
+---
+
+#### 2) Finding: **Cold-chain temperature exceedance** (CRITICAL, max 7.6°C vs 6.0°C threshold; +26.7%)  
+**Most likely root cause:** Refrigeration unit fault or loss of temperature control during transit/extended time on customs/dock exposure.  
+
+**Next action (concrete):**  
+**Flag SHP-1007 for immediate cold-chain inspection on arrival and instruct the driver/receiver to verify reefer unit data logger readings (alarm history, setpoint vs actual, power interruptions) and quarantine the shipment pending temperature compliance assessment.**
+
+BUSINESS IMPACT (CRITICAL, ERP-reconciled):
+  SHP-1002: Shipment **SHP-1002** impacts **Meridian Foods NV** with an order value at risk of **€26,400**. It is tied to a **production dependency**, which means a **factory line may stall**, requiring **urgent escalation**—priority is **high**.
+  SHP-1003: Shipment **SHP-1003** impacts **NordCold Distribution** with an order value of **€41,200** at risk. It is **production-dependent** and flagged **Critical**, so this may **stall a factory line** and requires **urgent escalation** to prevent downstream delivery delays.
+  SHP-1005: Shipment **SHP-1005** impacts **Warsaw Manufacturing Ltd** with approximately **€58,900** of order value at risk (**Priority: Critical**). This exception is **production-dependent**, meaning it may **stall a factory line**—**urgent escalation is required immediately** to prevent downtime and downstream delivery delays.
+  SHP-1007: Shipment **SHP-1007** impacts **AlpTec Assembly**, with approximately **€22,300** at risk. Because this is tied to **production_dependency = true**, it may **block a factory line**, requiring **urgent escalation** at **high priority**.
