@@ -67,12 +67,12 @@ naming, which turned out to be a red herring for this specific field.
 Full run output confirming the complete chain executes, including real ERP
 business-impact text: `portal-workflow-full-run-output.txt`.
 
-## Still to capture
+## Screenshot checklist -- complete
 
-- [ ] Portal screenshot: Agents list (all 3 CargoFlow Sentinel agents)
+- [x] Portal screenshot: Agents list (all 3 CargoFlow Sentinel agents,
+      all Running) -- embedded in `CargoFlow_Sentinel_Supporting_Documentation.docx`, Section 2.
 - [x] Portal screenshot: `cargoflow-sentinel-workflow` graph view (full
       canvas), captured together with a completed Preview run showing the
-      ERP reconciliation step's real output -- embedded in
-      `CargoFlow_Sentinel_Supporting_Documentation.docx`, Section 3.
+      ERP reconciliation step's real output -- embedded in Section 3.
 - [x] Terminal output: `python workflow/workflow.py` -- already captured
       as `workflow-run-output.txt`.
