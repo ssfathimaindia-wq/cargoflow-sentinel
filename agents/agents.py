@@ -9,11 +9,13 @@ Requires: azure-ai-projects, azure-identity, python-dotenv
 
 import json
 import os
+import time
 from pathlib import Path
 from dotenv import load_dotenv
 from azure.ai.projects import AIProjectClient
 from azure.ai.projects.models import FunctionTool, PromptAgentDefinition
 from azure.identity import DefaultAzureCredential
+from openai import APIConnectionError, APITimeoutError, InternalServerError, RateLimitError
 
 from tools import (
     CHECK_SHIPMENT_HEALTH_SCHEMA,
@@ -92,6 +94,27 @@ def _get_client() -> AIProjectClient:
     )
 
 
+RETRYABLE_ERRORS = (RateLimitError, APIConnectionError, APITimeoutError, InternalServerError)
+
+
+def _call_with_retries(fn, *, max_attempts: int = 3, base_delay: float = 1.5):
+    """
+    Retries a Foundry/OpenAI API call with exponential backoff, but only on
+    transient errors (rate limits, connection drops, timeouts, 5xx). Auth,
+    bad-request, and not-found errors are never retried -- retrying those
+    just wastes time on an error that will fail identically every time.
+    """
+    for attempt in range(1, max_attempts + 1):
+        try:
+            return fn()
+        except RETRYABLE_ERRORS as e:
+            if attempt == max_attempts:
+                raise
+            delay = base_delay * (2 ** (attempt - 1))
+            print(f"    (transient error {type(e).__name__}, retry {attempt}/{max_attempts - 1} in {delay:.0f}s)")
+            time.sleep(delay)
+
+
 def invoke_agent(client: AIProjectClient, agent_name: str, input_text: str) -> str:
     """
     Runs a turn against a deployed agent via the OpenAI Responses API, scoped
@@ -104,7 +127,9 @@ def invoke_agent(client: AIProjectClient, agent_name: str, input_text: str) -> s
     resubmitting tool outputs until the agent returns final text.
     """
     openai_client = client.get_openai_client(agent_name=agent_name)
-    response = openai_client.responses.create(model=MODEL_DEPLOYMENT_NAME, input=input_text)
+    response = _call_with_retries(
+        lambda: openai_client.responses.create(model=MODEL_DEPLOYMENT_NAME, input=input_text)
+    )
 
     while True:
         calls = [item for item in response.output if item.type == "function_call"]
@@ -122,10 +147,12 @@ def invoke_agent(client: AIProjectClient, agent_name: str, input_text: str) -> s
                 "output": json.dumps(result),
             })
 
-        response = openai_client.responses.create(
-            model=MODEL_DEPLOYMENT_NAME,
-            input=tool_outputs,
-            previous_response_id=response.id,
+        response = _call_with_retries(
+            lambda: openai_client.responses.create(
+                model=MODEL_DEPLOYMENT_NAME,
+                input=tool_outputs,
+                previous_response_id=response.id,
+            )
         )
 
 
