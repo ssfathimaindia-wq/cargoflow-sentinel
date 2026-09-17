@@ -1,9 +1,7 @@
 """
 CargoFlow Sentinel - Evaluation
 Runs an LLM-as-judge evaluation against eval_dataset.json, following the
-same pattern as the Factory lab's Challenge 3 (Evaluate). Keep the JSON
-output — it's your evidence for the "we measured quality" story on
-presentation day.
+same pattern as the Factory lab's Challenge 3 (Evaluate).
 """
 
 import json

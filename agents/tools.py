@@ -10,7 +10,7 @@ from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
-# Deviation thresholds — tune these for your demo narrative
+# Deviation thresholds
 DELAY_WARNING_HRS = 4.0
 DELAY_CRITICAL_HRS = 12.0
 TEMP_WARNING_MARGIN_C = 0.5  # within 0.5C of threshold = warning

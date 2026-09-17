@@ -2,8 +2,7 @@
 CargoFlow Sentinel - Production Workflow
 Orchestrates all three agents. Unlike the Factory lab's linear two-agent
 pipeline, this has a CONDITIONAL branch: the ERP Reconciliation Agent only
-fires for CRITICAL exceptions. This is the architectural differentiator
-worth calling out explicitly when presenting.
+fires for CRITICAL exceptions.
 """
 
 import sys
