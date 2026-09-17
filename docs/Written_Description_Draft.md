@@ -102,13 +102,32 @@ scored by a separate judging model against hand-written test cases, not
 just eyeballed once: 4.5/5 average, including one honestly lower-scoring
 case kept as-is rather than re-run until it looked better.
 
+## Reliability and production considerations
+
+Two things worth calling out explicitly, since "production-ready" claims
+are easy to overstate:
+
+- **Retries — built.** Every agent call is wrapped in exponential-backoff
+  retry logic, but only for genuinely transient failures (rate limits,
+  connection drops, timeouts, 5xx errors). Auth and bad-request errors are
+  deliberately never retried — retrying those just wastes time on an error
+  that fails identically every time. Verified with a full live workflow run
+  showing no regression.
+- **Privacy — acknowledged, not built.** The current dataset is synthetic
+  shipment and purchase-order data with no real personal information, so
+  it isn't an issue today. A production connection to live carrier and
+  D365FO data would need PII handling appropriate to GDPR/EMEA data
+  residency requirements before going live — flagged here as a known next
+  step, not glossed over.
+
 ## Scope, stated plainly
 
 Built and proven: live deployed agents, both orchestration paths working
-end-to-end, a real evaluation harness, real GenAI trace telemetry. Not yet
-built: live data sources (currently structured mock data shaped like the
-real thing, not a live carrier-tracking feed or a live D365FO connection),
-and a standing deployment (it runs on demand today; production needs a
-schedule or event trigger, not a terminal command). That gap is almost
-entirely data-and-trigger integration work — the agent reasoning itself is
-already proven.
+end-to-end, retry-hardened API calls, a real evaluation harness, real
+GenAI trace telemetry. Not yet built: live data sources (currently
+structured mock data shaped like the real thing, not a live
+carrier-tracking feed or a live D365FO connection), a standing deployment
+(it runs on demand today; production needs a schedule or event trigger,
+not a terminal command), and PII/privacy handling for real customer data.
+That gap is almost entirely data-and-trigger integration work — the agent
+reasoning itself is already proven.
